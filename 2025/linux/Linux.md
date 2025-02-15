@@ -15,36 +15,30 @@ Imagine you're managing a **Linux-based production server** and need to ensure t
 - Learn about Linux **users, groups, and permissions** (`/etc/passwd`, `/etc/group`).
 - **Task with answer scripts:**  
   - Create a user `devops_user` and add them to a group `devops_team`.
-    
-Commands:
 
-    sudo useradd -m devops_user -s /bin/bash
-    sudo groupadd devops_team
-    sudo usermod -aG devops_team devops_user
-    cat /etc/passwd
+        sudo useradd -m devops_user -s /bin/bash
+        sudo groupadd devops_team
+        sudo usermod -aG devops_team devops_user
+        cat /etc/passwd
 
   - Set a password and grant **sudo** access.
 
-Commands:
-
-    sudo passwd devops_user
-    sudo usermod -aG sudo devops_user
-    cat /etc/passwd | grep "devops_user"
+        sudo passwd devops_user
+        sudo usermod -aG sudo devops_user
+        cat /etc/passwd | grep "devops_user"
     
   - Restrict SSH login for certain users in `/etc/ssh/sshd_config`.
 
-Command:
-
-    sudo vim /etc/ssh/sshd_config
+        sudo vim /etc/ssh/sshd_config
 
 Add these variables in Host*:
 
-    AllowUsers user1 user2 user3
+        AllowUsers user1 user2 user3
     
 Command:
 
-    cat sshd_config | grep -i "AllowUsers"
-    sudo systemctl restart ssh
+        cat sshd_config | grep -i "AllowUsers"
+        sudo systemctl restart ssh
     
 ---
 
@@ -52,20 +46,22 @@ Command:
 - **Task:**  
   - Create `/devops_workspace` and a file `project_notes.txt`.
 
-Commands:
-
-    mkdir devops_workspace
-    touch project_notes.txt
-    ls
+        mkdir devops_workspace
+        touch project_notes.txt
+        ls
               
   - Set permissions:
-    - **Owner can edit**, **group can read**, **others have no access**.
+  - **Owner can edit**, **group can read**, **others have no access**.
    
-Commands:
-
-      chmod 640 devops_workspace project_notes.txt
+        sudo chown ubuntu:ubuntu devops_workspace/
+        chmod 640 project_notes.txt
 
   - Use `ls -l` to verify permissions.
+
+    Result:
+
+        ubuntu@ip-172-31-0-130:~/devops_workspace$ ls -l
+        -rw-r----- 1 ubuntu ubuntu 0 Feb 15 16:15 project_notes.txt
 
 ---
 
@@ -74,12 +70,28 @@ Logs are crucial in DevOps! You’ll analyze logs using the **Linux_2k.log** fil
 
 - **Task:**  
   - **Download the log file** from the repository.
+ 
+        wget https://github.com/logpai/loghub/blob/master/Linux/Linux_2k.log
+    
   - **Extract insights using commands:**
-    - Use `grep` to find all occurrences of the word **"error"**.
+    - Use `grep` to find all occurrences of the word **authentication failure**.
+      
+          cat Linux_2k.log | grep -i "error"
+        
     - Use `awk` to extract **timestamps and log levels**.
+                   
+          awk '/authentication failure/ {print $3,$5}' Linux_2k.log
+      
     - Use `sed` to replace all IP addresses with **[REDACTED]** for security.
+
+      
+          awk '/authentication failure/ {print $3,$5,$6,$7,$13}' Linux_2k.log > Output.txt
+          sed -E 's/([0-9]{1,3}\.){3}[0-9]{1,3}/[REDACTED]/g' Output.txt
+          
+      
   - **Bonus:** Find the most frequent log entry using `awk` or `sort | uniq -c | sort -nr | head -10`.
 
+          awk '/authentication failure/ {print $6,$7,$13}' Linux_2k.log | uniq -c | sort -nr | head -n 20
 ---
 
 ### **4️⃣ Volume Management & Disk Usage**
