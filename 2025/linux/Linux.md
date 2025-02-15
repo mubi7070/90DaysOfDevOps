@@ -44,7 +44,8 @@ Add these variables in Host*:
 Command:
 
     cat sshd_config | grep -i "AllowUsers"
-
+    sudo systemctl restart ssh
+    
 ---
 
 ### **2️⃣ File & Directory Permissions**
