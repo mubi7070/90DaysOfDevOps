@@ -97,9 +97,45 @@ Logs are crucial in DevOps! You’ll analyze logs using the **Linux_2k.log** fil
 ### **4️⃣ Volume Management & Disk Usage**
 - **Task:**  
   - Create a directory `/mnt/devops_data`.
+
+        sudo mkdir /mnt/devops_data
+    
   - Mount a new volume (or loop device for local practice).
+
+        lvm> pvcreate /dev/xvdg
+        lvm> pvs
+        lvm> vgcreate my_vg /dev/xvdg
+        lvm> vgs
+        lvm> lvcreate -L 4G -n my_lv my_vg
+        lvm> lvs
+        lvm> lvdisplay
+        
+        mkdir /mnt/devops_data
+        mkfs.ext4 /dev/my_vg/my_lv
+        mount /dev/my_vg/my_lv /mnt/devops_data/
+        
+  
   - Verify using `df -h` and `mount | grep devops_data`.
 
+        df -h
+        lsblk
+
+    Output:
+
+        root@ip-172-31-0-130:/# lsblk
+        NAME          MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+        loop0           7:0    0 26.3M  1 loop /snap/amazon-ssm-agent/9881
+        loop1           7:1    0 73.9M  1 loop /snap/core22/1748
+        loop2           7:2    0 73.9M  1 loop /snap/core22/1722
+        loop3           7:3    0 44.4M  1 loop /snap/snapd/23545
+        xvda          202:0    0   25G  0 disk
+        ├─xvda1       202:1    0   24G  0 part /
+        ├─xvda14      202:14   0    4M  0 part
+        ├─xvda15      202:15   0  106M  0 part /boot/efi
+        └─xvda16      259:0    0  913M  0 part /boot
+        xvdg          202:96   0    5G  0 disk
+        └─my_vg-my_lv 252:0    0    4G  0 lvm  /mnt/devops_data
+        
 ---
 
 ### **5️⃣ Process Management & Monitoring**
