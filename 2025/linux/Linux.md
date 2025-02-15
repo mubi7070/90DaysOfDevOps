@@ -24,7 +24,26 @@ Commands:
     cat /etc/passwd
 
   - Set a password and grant **sudo** access.
+
+Commands:
+
+    sudo passwd devops_user
+    sudo usermod -aG sudo devops_user
+    cat /etc/passwd | grep "devops_user"
+    
   - Restrict SSH login for certain users in `/etc/ssh/sshd_config`.
+
+Command:
+
+    sudo vim /etc/ssh/sshd_config
+
+Add these variables in Host*:
+
+    AllowUsers user1 user2 user3
+    
+Command:
+
+    cat sshd_config | grep -i "AllowUsers"
 
 ---
 
