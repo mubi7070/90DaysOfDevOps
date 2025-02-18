@@ -52,6 +52,113 @@ Create a bash script named `user_management.sh` that implements the User Account
 
 Add comments in the script to explain the purpose and logic of each part.
 
+### Script: user_management.sh code:
+
+    #!/bin/bash
+    
+    <<info
+    Week 3 Challenge 1: User Account Management
+    
+    Task Link: https://github.com/mubi7070/90DaysOfDevOps/blob/Linux-%26-Shell-Scripting/2025/shell_scripting/shell_scripting%20assignment.md
+    
+    info
+    
+    # Functions to perform the tasks
+    
+    create_user() {
+            echo "---- Account Creation ----"
+            read -p "Enter the username which you want to create? " username
+            read -p "Enter the password: " password
+    
+            condition=$(cat /etc/passwd | grep $username | wc | awk '{print $1}')
+    
+            if [ $condition == 0 ];
+            then
+                    sudo useradd -m "$username"
+                    echo -e "$password\n$password" | sudo passwd "$username"
+                    echo "--- User $username Created Successfully. ---"
+            else
+                    echo "Oops! The provided username already exists. Kindly use a different username."
+            fi
+    }
+    
+    del_user() {
+            echo "---- Account Deletion ----"
+            read -p "Enter the username which you want to delete? " username
+    
+            condition=$(cat /etc/passwd | grep $username | wc | awk '{print $1}')
+    
+            if [ $condition == 0 ];
+            then
+                    echo "Oops! The provided username doesn't exist. Kindly use the correct username."
+            else
+                    sudo userdel $username
+                    echo "--- User $username Deleted Successfully. ---"
+            fi
+    }
+    
+    password_reset() {
+            echo "---- Password Reset ----"
+            read -p "Enter the username: " username
+            read -p "Enter the new password: " newpassword
+            echo -e "$newpassword\n$newpassword" | sudo passwd "$username"
+    }
+    
+    list_users() {
+            echo "---- List Of All User Accounts ----"
+            cat /etc/passwd | awk -F: '{print $3,"-",$1}'
+    }
+    
+    help_usage() {
+            echo -e "\n---- Help and Usage Information ----\n
+            Available Options are:
+              -c or --create    To create a user account
+              -d or --delete    To delete a user account
+              -r or --reset     To reset the password of an existing user account
+              -l or --list      To list all the users and their UIDs
+              -h or --help      To display usage information and available command-line options\n"
+    }
+    
+    # Checking the arguments if the user provided it or not.
+    
+    if [ "$1" == "" ];
+    then
+            echo "Kindly Provide an Argument to perform an operation. You can take help using -h or --help"
+    
+    elif [ "$2" != "" ];
+    then
+            echo "Kindly provide a single argument at a time."
+    
+    else
+            echo -e "\e[32m=== Welcome to the User Account Management Application ===\e[0m"
+            option=$1
+    fi
+    
+    # switch case to call the correct function as per the argument
+    
+    case "$option" in
+            "-c" | "--create")
+                    create_user
+                    ;;
+            "-d" | "--delete")
+                    del_user
+                    ;;
+            "-r" | "--reset")
+                    password_reset
+                    ;;
+            "-l" | "--list")
+                    list_users
+                    ;;
+            "-h" | "--help")
+                    help_usage
+                    ;;
+            *)
+                    echo "Enter a valid argument. You can take help using -h or --help"
+                    ;;
+    
+    esac
+
+
 ## Week 3 Challenge 2: Automated Backup & Recovery using Cron
 
 
