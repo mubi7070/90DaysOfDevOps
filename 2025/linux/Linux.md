@@ -208,6 +208,42 @@ Logs are crucial in DevOps! You’ll analyze logs using the **Linux_2k.log** fil
   - Save it in `/backups` and schedule it using `cron`.
   - Make the script display a success message in **green text** using `echo -e`.
 
+    Commands:
+    
+        touch backupscript.sh
+        chmod 764 backupscript.sh
+        vim backupscript.sh
+
+    Shell Script:
+    
+        #!/bin/bash
+        
+        <<info
+        Task:
+        Write a shell script to back up /devops_workspace as backup_$(date +%F).tar.gz.
+        Save it in /backups and schedule it using cron.
+        Make the script display a success message in green text using echo -e.
+        info
+        
+        src=/home/ubuntu/devops_workspace
+        dest=/home/ubuntu/backups
+        
+        mydate=$(date "+%F")
+        
+        # Compression part
+        
+        tar -czf "$dest/backup_$mydate.tar.gz" $src
+ 
+        # Result in Green color
+        
+        echo -e "\e[32m Backup Completed. \e[0m"
+                                                                                                                   ~ 
+    Cron Job Setup:
+
+        crontab -e
+
+        0 2 * * * bash /home/ubuntu/backupscript.sh
+        
 ---
 
 ## 🎯 Bonus Tasks (Optional 🚀)
