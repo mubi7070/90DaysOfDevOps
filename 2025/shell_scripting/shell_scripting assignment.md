@@ -227,6 +227,50 @@ file2.txt
 
 In this example, the script creates backup folders with timestamped names and retains only the last 3 backups while removing the older backups.
 
+### Script: backup_with_rotation.sh code:
+
+    #!/bin/bash
+
+    <<info
+    Your task is to create a bash script that takes a directory path as a command-line argument and performs a backup of the directory. The script should create timestamped backup folders and copy all the files from the specified directory into the backup folder.
+    
+    Additionally, the script should implement a rotation mechanism to keep only the last 3 backups. This means that if there are more than 3 backup folders, the oldest backup folders should be removed to ensure only the most recent backups are retained.
+    info
+    
+    
+    if [ "$1" != "" ];
+    then
+            src="/home/ubuntu/week3/challenge1"
+            dest="$1"
+    
+            timestamp=$(date '+%Y-%m-%d_%H-%M-%S')
+            dirname="backup_$timestamp"
+            fullpath="$dest/$dirname"
+    
+            mkdir -p "$fullpath"
+            cp -r $src $fullpath
+    
+            echo "Backup created: $fullpath"
+    
+            count=$(ls -d "$dest"/backup_*/ 2>/dev/null | wc -l)
+    
+            #echo "Total: $count backup directories"
+    
+            if [ $count > 3 ];
+            then
+                    # To check the extra old directories jisko delete krna he
+                    delete=$(ls -dt "$dest"/backup_*/ | tail -n +4)
+    
+                    for dir in $delete;
+                    do
+                            rm -rf "$dir"
+                    done
+            fi
+    
+    else
+            echo "Kindly add the destination directory in which you want to save the backup."
+    fi
+
 ## Submission Instructions
 
 Create a bash script named backup_with_rotation.sh that implements the Directory Backup with Rotation as described in the challenge.
