@@ -141,8 +141,64 @@ Logs are crucial in DevOps! You’ll analyze logs using the **Linux_2k.log** fil
 ### **5️⃣ Process Management & Monitoring**
 - **Task:**  
   - Start a background process (`ping google.com > ping_test.log &`).
+    
+        ubuntu@ip-172-31-0-130:~/tasks$ ping google.com > ping_test.log &
+        [1] 1378
+    
   - Use `ps`, `top`, and `htop` to monitor it.
   - Kill the process and verify it's gone.
+    
+        ps
+    
+          PID TTY          TIME CMD
+         1308 pts/0    00:00:00 bash
+         1378 pts/0    00:00:00 ping
+         1379 pts/0    00:00:00 ps
+        
+
+    Using top:
+
+        top
+        PID to signal/kill [default pid = 1] 1378
+    
+         PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND
+        1290 ubuntu    20   0   14988   6940   4992 S   0.3   0.7   0:00.44 sshd
+          1 root      20   0   22128  13300   9460 S   0.0   1.4   0:01.24 systemd
+          2 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kthreadd
+          3 root      20   0       0      0      0 S   0.0   0.0   0:00.00 pool_workqueue_release
+          4 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_g
+          5 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-rcu_p
+          6 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-slub_
+          7 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-netns
+          8 root      20   0       0      0      0 I   0.0   0.0   0:00.03 kworker/0:0-cgroup_destroy
+         10 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/0:0H-events_highpri
+         11 root      20   0       0      0      0 I   0.0   0.0   0:00.05 kworker/u30:0-events_power_efficient
+         12 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-mm_pe
+         13 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_rude_kthread
+         14 root      20   0       0      0      0 I   0.0   0.0   0:00.00 rcu_tasks_trace_kthread
+         15 root      20   0       0      0      0 S   0.0   0.0   0:00.06 ksoftirqd/0
+         16 root      20   0       0      0      0 I   0.0   0.0   0:00.11 rcu_sched
+         17 root      rt   0       0      0      0 S   0.0   0.0   0:00.00 migration/0
+         18 root     -51   0       0      0      0 S   0.0   0.0   0:00.00 idle_inject/0
+         19 root      20   0       0      0      0 S   0.0   0.0   0:00.00 cpuhp/0
+         20 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kdevtmpfs
+         21 root       0 -20       0      0      0 I   0.0   0.0   0:00.00 kworker/R-inet_
+         22 root      20   0       0      0      0 I   0.0   0.0   0:00.03 kworker/u30:1-events_power_efficient
+         23 root      20   0       0      0      0 S   0.0   0.0   0:00.00 kauditd
+          [1]+  Terminated              ping google.com > ping_test.log
+
+    Using htop:
+
+          htop
+    
+          - select the process row of that process which you want to kill
+          - Press F9
+          - Select the signal (By default: 15 (To kill gracefully), to kill forcefully: 9)
+          - Press Enter
+          - The process is killed now. You can verify it.
+
+
+
 
 ---
 
