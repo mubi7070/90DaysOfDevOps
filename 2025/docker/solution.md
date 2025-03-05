@@ -133,8 +133,52 @@ https://github.com/LondheShubham153/java-quotes-app
 ### Task 3: Explore Docker Terminologies and Components
 1. **Document Key Terminologies:**  
    - In your `solution.md`, list and briefly describe key Docker terms such as image, container, Dockerfile, volume, and network.
+
+
+***Key Docker Terms***
+
+- **Image:** A lightweight, stand-alone, and executable package that includes everything needed to run a piece of software (code, runtime, libraries, dependencies, etc.).
+- **Container:** A running instance of a Docker image that provides an isolated environment for applications.
+- **Dockerfile:** A script that contains a set of instructions for building a Docker image, defining the base image, dependencies, and commands.
+- **Volume:** A storage mechanism used to persist data across container restarts, ensuring data is not lost when a container is removed.
+- **Network:** A virtual network that enables communication between containers or between a container and the host system, essential for microservices architecture.
+
+
+
    - Explain the main Docker components (Docker Engine, Docker Hub, etc.) and how they interact.
 
+
+***Docker Components and Their Interaction***
+
+**1. Docker Engine**
+The core of Docker that runs and manages containers. 
+It includes:
+- ***Docker Daemon***: Runs in the background to manage containers.
+- ***Docker CLI***: A command-line tool to control Docker.
+
+**2. Docker Hub**
+An online registry where Docker images are stored and shared. 
+You can:
+- ***Pull images*** to use in your projects.
+- ***Push images*** to share with others.
+
+**3. Docker Compose**
+A tool to manage multi-container applications using a simple YAML file (.yml). 
+It helps:
+- ***Run multiple services*** together.
+- ***Define dependencies*** between containers.
+
+**4. Docker Networking**
+Allows containers to communicate with each other and the outside world.
+Types:
+- ***Bridge***: Default, used for containers on the same host.
+- ***Host***: Containers use the host’s network.
+
+**5. How These Components Work Together**
+1. ***Docker Engine*** pulls images from ***Docker Hub***.
+2. It runs containers based on those images.
+3. ***Docker Compose*** manages multiple containers.
+4. ***Docker Networking*** enables communication between containers.
 ---
 
 ### Task 4: Optimize Your Docker Image with Multi-Stage Builds
