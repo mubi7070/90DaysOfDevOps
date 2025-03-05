@@ -239,10 +239,10 @@ Multi-stage builds help reduce Docker image size by removing unnecessary build d
 
 **Key Benefits:**
 
-***Smaller Image Size*** – The multi-stage image (226MB) is 100MB smaller than the non-multi-stage one (326MB).
-***Better Security*** – Unused tools and dependencies are removed, reducing vulnerabilities.
-***Faster Deployment*** – Smaller images load and start up faster in production.
-***Optimized Performance*** – Uses only the required runtime environment, improving efficiency.
+- ***Smaller Image Size*** – The multi-stage image (226MB) is 100MB smaller than the non-multi-stage one (326MB).
+- ***Better Security*** – Unused tools and dependencies are removed, reducing vulnerabilities.
+- ***Faster Deployment*** – Smaller images load and start up faster in production.
+- ***Optimized Performance*** – Uses only the required runtime environment, improving efficiency.
 
 ---
 
@@ -280,10 +280,19 @@ Multi-stage builds help reduce Docker image size by removing unnecessary build d
      ```bash
      docker run -d -v my_volume:/app/data <your-username>/sample-app:v1.0
 
-     docker run -d -v java_app_volume:/app mubashirahmed324/multi-stage-java-quotes-app:latest
+     i.e.
+     docker run -d -v java_app_volume:/data -p 8000:8000 --name multi-stage-java my-java-app
      ```
 3. **Document the Process:**  
    - In `solution.md`, explain how Docker volumes help with data persistence and why they are useful.
+
+***Docker Volumes for Data Persistence***
+Docker volumes are used to persist data outside a container's lifecycle. When a container stops or is removed, its internal data is lost. Volumes solve this by storing data separately from the container, allowing it to be reused across restarts and multiple containers.
+
+- Persistent Storage: Keeps data safe even if the container is deleted.
+- Sharing Data: Multiple containers can access the same volume.
+- Better Performance: Volumes are optimized for Docker and perform better than bind mounts.
+- Easier Backups: Data stored in volumes can be easily backed up and restored.
 
 ---
 
