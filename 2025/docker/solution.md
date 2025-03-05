@@ -185,13 +185,64 @@ Types:
 1. **Implement a Multi-Stage Docker Build:**  
    - Modify your existing `Dockerfile` to include multi-stage builds.  
    - Aim to produce a lightweight, **distroless** (or minimal) final image.
-2. **Compare Image Sizes:**  
+
+     ```bash
+      #stage 1
+      #Base Image
+      
+      #Base Image for Openjdk
+      FROM openjdk:17-jdk-alpine AS builder
+      
+      #WORKING DIR
+      WORKDIR /app
+      
+      #COPY ALL
+      COPY src/ ./src/
+      COPY quotes.txt .
+      
+      #Run this to install libs and to compile code
+      RUN javac -d . src/Main.java
+      
+      #Stage 2
+      FROM gcr.io/distroless/java17-debian12
+      
+      #COPY the compiled java file
+      COPY --from=builder /app/Main.class /app/Main.class
+      
+      #COPY the required quotes.txt
+      COPY --from=builder /app/quotes.txt /app/quotes.txt
+      
+      #Port required for this app.
+      EXPOSE 8000
+      
+      #RUN
+      CMD ["java","Main"]
+     ```
+
+3. **Compare Image Sizes:**  
    - Build your image before and after the multi-stage build modification and compare their sizes using:
      ```bash
      docker images
+   
+
+     Result:
+     REPOSITORY                                     TAG             IMAGE ID       CREATED          SIZE
+     mubashirahmed324/multi-stage-java-quotes-app   latest          fd1485a03aab   9 seconds ago    226MB
+     mubashirahmed324/java-quotes-app               latest          6be8b811c49c   57 minutes ago   326MB
      ```
-3. **Document the Differences:**  
+     
+4. **Document the Differences:**  
    - Explain in `solution.md` the benefits of multi-stage builds and the impact on image size.
+
+## Differences & Benefits of Multi-Stage Builds
+Multi-stage builds help reduce Docker image size by removing unnecessary build dependencies from the final image.
+
+**Key Benefits:**
+
+***Smaller Image Size*** – The multi-stage image (226MB) is 100MB smaller than the non-multi-stage one (326MB).
+***Better Security*** – Unused tools and dependencies are removed, reducing vulnerabilities.
+***Faster Deployment*** – Smaller images load and start up faster in production.
+***Optimized Performance*** – Uses only the required runtime environment, improving efficiency.
 
 ---
 
