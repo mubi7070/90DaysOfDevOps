@@ -251,6 +251,9 @@ Multi-stage builds help reduce Docker image size by removing unnecessary build d
    - Tag your image appropriately:
      ```bash
      docker tag <your-username>/sample-app:latest <your-username>/sample-app:v1.0
+
+     i.e.
+     docker tag my-java-app:latest mubashirahmed324/my-java-app:v1.0
      ```
 2. **Push Your Image to Docker Hub:**  
    - Log in to Docker Hub if necessary:
@@ -260,13 +263,35 @@ Multi-stage builds help reduce Docker image size by removing unnecessary build d
    - Push the image:
      ```bash
      docker push <your-username>/sample-app:v1.0
+
+     i.e.
+     docker push mubashirahmed324/my-java-app:v1.0
+
+     Result:
+     The push refers to repository [docker.io/mubashirahmed324/my-java-app]
+     28f6bd086ef8: Pushed
+     c200b4a2bd0d: Pushed
+     fc625878c069: Pushed
+     fb9cc081b244: Pushed
+     34f7184834b2: Mounted from library/openjdk
+     5836ece05bfd: Mounted from library/openjdk
+     72e830a4dff5: Mounted from library/openjdk
+     v1.0: digest: sha256:c7dd3ad428b28d06ecc1cfd928acc4f40a2c4afa89cd884342b51105dc47e80b size: 1780
      ```
 3. **(Optional) Pull the Image:**  
    - Verify by pulling your image:
      ```bash
      docker pull <your-username>/sample-app:v1.0
-     ```
 
+     i.e.
+     docker pull mubashirahmed324/my-java-app:v1.0
+
+     Result:
+     v1.0: Pulling from mubashirahmed324/my-java-app
+     Digest: sha256:c7dd3ad428b28d06ecc1cfd928acc4f40a2c4afa89cd884342b51105dc47e80b
+     Status: Image is up to date for mubashirahmed324/my-java-app:v1.0
+     docker.io/mubashirahmed324/my-java-app:v1.0
+     ```
 ---
 
 ### Task 6: Persist Data with Docker Volumes
