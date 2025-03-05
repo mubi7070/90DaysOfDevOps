@@ -186,38 +186,38 @@ Types:
    - Modify your existing `Dockerfile` to include multi-stage builds.  
    - Aim to produce a lightweight, **distroless** (or minimal) final image.
 
-     ```bash
-      #stage 1
-      #Base Image
-      
-      #Base Image for Openjdk
+      ```bash
+      # Stage 1: Build Stage
       FROM openjdk:17-jdk-alpine AS builder
       
-      #WORKING DIR
+      # Set working directory
       WORKDIR /app
       
-      #COPY ALL
+      # Copy source files
       COPY src/ ./src/
       COPY quotes.txt .
       
-      #Run this to install libs and to compile code
+      # Compile Java source file
       RUN javac -d . src/Main.java
       
-      #Stage 2
+      # Stage 2: Runtime Stage (Distroless)
       FROM gcr.io/distroless/java17-debian12
       
-      #COPY the compiled java file
+      # Set working directory
+      WORKDIR /app
+      
+      # Copy compiled Java class
       COPY --from=builder /app/Main.class /app/Main.class
       
-      #COPY the required quotes.txt
+      # Copy quotes.txt file
       COPY --from=builder /app/quotes.txt /app/quotes.txt
       
-      #Port required for this app.
+      # Expose required port
       EXPOSE 8000
       
-      #RUN
-      CMD ["java","Main"]
-     ```
+      # Run Java application correctly (remove -jar)
+      CMD ["/usr/bin/java", "Main"]
+      ```
 
 3. **Compare Image Sizes:**  
    - Build your image before and after the multi-stage build modification and compare their sizes using:
@@ -273,12 +273,14 @@ Multi-stage builds help reduce Docker image size by removing unnecessary build d
 1. **Create a Docker Volume:**  
    - Create a Docker volume:
      ```bash
-     docker volume create my_volume
+     docker volume create java_app_volume
      ```
 2. **Run a Container with the Volume:**  
    - Run a container using the volume to persist data:
      ```bash
      docker run -d -v my_volume:/app/data <your-username>/sample-app:v1.0
+
+     docker run -d -v java_app_volume:/app mubashirahmed324/multi-stage-java-quotes-app:latest
      ```
 3. **Document the Process:**  
    - In `solution.md`, explain how Docker volumes help with data persistence and why they are useful.
