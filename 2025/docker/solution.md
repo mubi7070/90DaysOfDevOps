@@ -74,23 +74,58 @@ https://github.com/LondheShubham153/java-quotes-app
 2. **Write a Dockerfile:**  
    - Create a `Dockerfile` that defines how to build an image for your application.
    - Include comments in your Dockerfile explaining each instruction.
+
+      ***Dockerfile:***
+       ```bash
+      #Base Image for Openjdk
+      FROM openjdk:17-jdk-alpine
+      
+      #WORKING DIR
+      WORKDIR /app
+      
+      #COPY Main File first
+      COPY /src/Main.java /app
+      
+      #COPY the required quotes.txt
+      COPY quotes.txt quotes.txt
+      
+      #Run this to install libs and to compile code
+      RUN javac Main.java
+      
+      #Port required for this app.
+      EXPOSE 8000
+      
+      #Run and serves the app
+      CMD [ "java","Main" ]
+       ```
+
    - Build your image using:
      ```bash
-     docker build -t <your-username>/sample-app:latest .
+     docker build -t mubashirahmed324/java-quotes-app:latest .
      ```
 
-3. **Verify Your Build:**  
+2. **Verify Your Build:**  
    - Run your container locally to ensure it works as expected:
      ```bash
-     docker run -d -p 8080:80 <your-username>/sample-app:latest
+     docker run -d -p 8000:8000 --name java-quotes-app mubashirahmed324/java-quotes-app:latest
      ```
    - Verify the container is running with:
      ```bash
      docker ps
+
+     ubuntu@ip-122-21-1-420:~/week5/java-quotes-app$ docker ps
+     CONTAINER ID   IMAGE                                     COMMAND       CREATED          STATUS          PORTS                                       NAMES
+     c0f6b805d556   mubashirahmed324/java-quotes-app:latest   "java Main"   25 seconds ago   Up 24 seconds   0.0.0.0:8000->8000/tcp, :::8000->8000/tcp   java-quotes-app
      ```
    - Check logs using:
      ```bash
      docker logs <container_id>
+
+     docker logs c0f6b8
+     
+     Result:
+     ubuntu@ip-172-31-0-130:~/week5/java-quotes-app$ docker logs c0f6b8
+     Server is running on port 8000...
      ```
 
 ---
