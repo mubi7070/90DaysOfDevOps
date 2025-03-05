@@ -326,16 +326,38 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
    - Create a custom Docker network:
      ```bash
      docker network create my_network
+
+     i.e.
+     docker network create java-app-network
      ```
 2. **Run Containers on the Same Network:**  
    - Run two containers (e.g., your sample app and a simple database like MySQL) on the same network to demonstrate inter-container communication:
      ```bash
      docker run -d --name sample-app --network my_network <your-username>/sample-app:v1.0
      docker run -d --name my-db --network my_network -e MYSQL_ROOT_PASSWORD=root mysql:latest
+
+     i.e.
+     docker run -d --name multi-stage-java --network java-app-network mubashirahmed324/my-java-app:v1.0
+     docker run -d --name java-database --network java-app-network -e MYSQL_ROOT_PASSWORD=root mysql:latest
+
+     To check and verify:
+     docker inspect java-app-network
      ```
 3. **Document the Process:**  
    - In `solution.md`, describe how Docker networking enables container communication and its significance in multi-container applications.
 
+   ***Docker Networking for Container Communication***
+   Docker networking allows containers to communicate with each other and external systems efficiently. By default, Docker provides different network types to suit various use cases:
+
+   - Bridge Network (Default): Enables communication between containers on the same host.
+   - None: Complete isolation
+   - Host Network: Removes network isolation, using the host machine’s network directly.
+   - User Defined Bridge Network: Connects containers across multiple Docker hosts, ideal for distributed applications.
+   
+   ***Importance in Multi-Container Applications***
+   - Service-to-Service Communication: Containers can interact without exposing services to the host machine.
+   - Scalability: Supports dynamic service discovery in microservices architectures.
+   - Security: Network isolation ensures controlled access between containers.
 ---
 
 ### Task 8: Orchestrate with Docker Compose
