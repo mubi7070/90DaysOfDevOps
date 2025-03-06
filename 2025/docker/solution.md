@@ -364,18 +364,78 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
 1. **Create a docker-compose.yml File:**  
    - Write a `docker-compose.yml` file that defines at least two services (e.g., your sample app and a database).
    - Include definitions for services, networks, and volumes.
-2. **Deploy Your Application:**  
+
+   ***docker-compose.yml:***
+     ```bash
+     services:
+        mysql:
+          image: mysql:5.7
+          container_name: mysql
+          environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: java-app
+            MYSQL_USER: admin
+            MYSQL_PASSWORD: admin
+          volumes:
+            - java_app_volume:/var/lib/mysql
+          networks:
+            - java-app-network
+          ports:
+            - "3306:3306"
+          healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+            interval: 10s
+            retries: 5
+            start_period: 60s
+            timeout: 5s
+      
+        java-app:
+          build:
+            context: .
+            dockerfile: dockerfile-multi-stage
+          container_name: java-app
+          depends_on:
+            - mysql
+          networks:
+            - java-app-network
+          ports:
+            - "8000:8000"
+   
+   volumes:
+     java_app_volume:
+   
+   networks:
+     java-app-network:
+     ```
+     
+1. **Deploy Your Application:**  
    - Bring up your application using:
      ```bash
      docker-compose up -d
      ```
+     ***Result:***
+     ```bash
+     [+] Running 3/3
+      ✔ Network java-quotes-app_java-app-network  Created
+      ✔ Container mysql                           Started
+      ✔ Container java-app                        Started
+     ```
+
    - Test the setup, then shut it down using:
      ```bash
      docker-compose down
      ```
-3. **Document the Process:**  
-   - Explain each service and configuration in your `solution.md`.
+     ***Result:***
+     ```bash
+      [+] Running 3/3
+       ✔ Container java-app                        Removed
+       ✔ Container mysql                           Removed
+       ✔ Network java-quotes-app_java-app-network  Removed
+     ```
 
+2. **Document the Process:**  
+   - Explain each service and configuration in your `solution.md`.
+   
 ---
 
 ### Task 9: Analyze Your Image with Docker Scout
