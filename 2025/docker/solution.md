@@ -431,11 +431,7 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
        ✔ Container java-app                        Removed
        ✔ Container mysql                           Removed
        ✔ Network java-quotes-app_java-app-network  Removed
-     ```
-
-2. **Document the Process:**  
-   - Explain each service and configuration in your `solution.md`.
-   
+     ``` 
 ---
 
 ### Task 9: Analyze Your Image with Docker Scout
@@ -443,18 +439,41 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
    - Execute Docker Scout on your image to generate a detailed report of vulnerabilities and insights:
      ```bash
      docker scout cves <your-username>/sample-app:v1.0
+
+     i.e.
+     docker scout cves mubashirahmed324/my-java-app:v1.0
      ```
+   ***Result:***
+     ```bash
+     28 vulnerabilities found in 6 packages
+     CRITICAL     4
+     HIGH         16
+     MEDIUM       7
+     LOW          0
+     UNSPECIFIED  1
+     ```
+  
    - Alternatively, if available, run:
      ```bash
      docker scout quickview <your-username>/sample-app:v1.0
+
+     i.e.
+     docker scout quickview mubashirahmed324/my-java-app:v1.0
      ```
+     ***Result:***
+     ```bash
+     Target     │  mubashirahmed324/my-java-app:v1.0  │    4C    16H     7M     0L     1?
+     digest   │  c7dd3ad428b2                       │
+     Base image │  openjdk:17-alpine                  │    4C    15H     7M     0L     1?
+     ```
+   
      to get a summarized view of the image’s security posture.
    - **Optional:** Save the output to a file for further analysis:
      ```bash
      docker scout cves <your-username>/sample-app:v1.0 > scout_report.txt
      ```
 
-2. **Review and Interpret the Report:**  
+1. **Review and Interpret the Report:**  
    - Carefully review the output and focus on:
      - **List of CVEs:** Identify vulnerabilities along with their severity ratings (e.g., Critical, High, Medium, Low).
      - **Affected Layers/Dependencies:** Determine which image layers or dependencies are responsible for the vulnerabilities.
@@ -462,7 +481,7 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
    - **Comparison Step:** If possible, compare this report with previous builds to assess improvements or regressions in your image's security posture.
    - If Docker Scout is not available in your environment, document that fact and consider using an alternative vulnerability scanner (e.g., Trivy, Clair) for a comparative analysis.
 
-3. **Document Your Findings:**  
+2. **Document Your Findings:**  
    - In your `solution.md`, provide a detailed summary of your analysis:
      - List the identified vulnerabilities along with their severity levels.
      - Specify which layers or dependencies contributed to these vulnerabilities.
