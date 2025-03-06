@@ -463,14 +463,14 @@ Docker volumes are used to persist data outside a container's lifecycle. When a 
      ***Result:***
      ```bash
      Target     │  mubashirahmed324/my-java-app:v1.0  │    4C    16H     7M     0L     1?
-     digest   │  c7dd3ad428b2                       │
+       digest   │  c7dd3ad428b2                       │
      Base image │  openjdk:17-alpine                  │    4C    15H     7M     0L     1?
      ```
    
      to get a summarized view of the image’s security posture.
    - **Optional:** Save the output to a file for further analysis:
      ```bash
-     docker scout cves <your-username>/sample-app:v1.0 > scout_report.txt
+     docker scout cves mubashirahmed324/my-java-app:v1.0 > scout_report.txt
      ```
 
 1. **Review and Interpret the Report:**  
